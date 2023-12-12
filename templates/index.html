@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .title {
+      color: azure;
+      text-align: center;
+    }
+
+    .title-decks {
+      color: azure;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    body {
+      background-image: url("static/img/table3.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .card-table {
+      display: flex;
+
+      flex-wrap: wrap;
+      border: 2px;
+      border-color: rgb(255, 255, 255);
+      border-style: solid;
+      text-align: center;
+      text-wrap: wrap;
+      justify-content: center;
+      background-color: rgba(0, 100, 0, 0.541);
+      padding: 1%;
+      margin: 0.5%;
+    }
+
+    .card-placeholder {
+      /*flex: 0 0 5px;*/
+      width: 75px;
+      height: 100px;
+      display: flex;
+      position: relative;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      border-color: rgb(255, 255, 255);
+      border-style: solid;
+      border-radius: 25px;
+      padding: 1%;
+      margin: 0.5%;
+      color: azure;
+      background-size: 75%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .card-placeholder .card {
+      /*flex: 0 0 5px;*/
+      width: 85%;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-wrap: wrap;
+      align-self: center;
+      color: black;
+      position: absolute;
+      background-size: 75%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .hide {
+      visibility: hidden;
+    }
+  </style>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Black Jack Helper</title>
+  </head>
+
+  <body>
+    <form class="title" method="POST">
+      How many decks?<br />
+      <input type="text" name="decks" autocomplete="off" /><br />
+      <input type="submit" value="Submit" />
+      <input
+        type="submit"
+        value="Reset"
+        onClick="location.href=location.href"
+      />
+      <p class="title-decks">{{decks}} decks on the table</p>
+    </form>
+
+    <h1 class="title">Black Jack Helper</h1>
+    <div id="table" class="card-table">
+      {% for v,s in value|zip(sort) %}
+      <div
+        id="placeholder"
+        class="card-placeholder"
+        data-value="{{ v }}"
+        data-sort="{{ s }}"
+      >
+        {{v + " " + s}} {% for deck in range(decks|int)%}
+        <div
+          id="cards"
+          class="card"
+          style="background-image: url('static/img/cards/{{v}}_{{s}}.png')"
+        ></div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cardContainer =
+          document.getElementsByClassName("card-placeholder");
+        const cards = document.getElementsByClassName("card");
+
+        const cardArray = Array.from(cards);
+        const containerArray = Array.from(cardContainer);
+
+        containerArray.forEach((placeholder) => {
+          if (placeholder.hasChildNodes) {
+            let marginValue = 5;
+            for (let c of placeholder.children) {
+              sort = placeholder.getAttribute("data-sort");
+              value = placeholder.getAttribute("data-value");
+              marginTopParam =
+                "background-image: url('static/img/cards/" +
+                value +
+                "_" +
+                sort +
+                ".png'); margin-top: " +
+                marginValue +
+                "%; margin-left: " +
+                marginValue +
+                "%";
+              if (c === placeholder.firstElementChild) {
+                continue;
+              } else {
+                c.setAttribute("style", marginTopParam);
+                console.log(c);
+                marginValue += 5;
+              }
+            }
+          }
+        });
+        cardArray.forEach((card) => {
+          // Add click event listener to dispose of cards
+          card.addEventListener("click", function () {
+            card.classList.add("hide"); // Hide the disposed card
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
