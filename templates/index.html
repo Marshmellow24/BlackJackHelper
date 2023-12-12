@@ -107,7 +107,7 @@
         <div
           id="cards"
           class="card"
-          style="background-image: url('static/img/cards/{{v}}_{{s}}.png')"
+          style="background-image: url('static/img/cards/{{v|lower}}_{{s}}.png')"
         ></div>
         {% endfor %}
       </div>
@@ -128,7 +128,7 @@
             let marginValue = 5;
             for (let c of placeholder.children) {
               sort = placeholder.getAttribute("data-sort");
-              value = placeholder.getAttribute("data-value");
+              value = placeholder.getAttribute("data-value").toLowerCase();
               marginTopParam =
                 "background-image: url('static/img/cards/" +
                 value +
