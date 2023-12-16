@@ -1,30 +1,57 @@
 
-function sortCards(a, b) {
-  /*
-  let valA = Number.isNaN(parseInt(a.getAttribute("data-value")))
-    ? a.getAttribute("data-value")
-    : parseInt(a.getAttribute("data-value"));
-  let valB = Number.isNaN(parseInt(b.getAttribute("data-value")))
-    ? b.getAttribute("data-value")
-    : parseInt(b.getAttribute("data-value"));
-  */
-  let valA = a.getAttribute("data-value");
-  let valB = b.getAttribute("data-value");
-  let sorA = a.getAttribute("data-sort");
-  let sorB = b.getAttribute("data-sort");
 
-  if (valA > valB) {
-    return -1;
-  } else if (valA < valB) {
-    return 1;
-  } else if (valA === valB) {
-    if (sorA > sorB) {
-      return 1;
-    } else {
-      return -1;
-    }
-  }
+function checkDeckCount () {
+  console.log(decks);
 }
 
-{{ v + "\n" + s + " "}} <br />
-{{(deck+1)|string }}
+
+document.addEventListener("DOMContentLoaded", function () {
+  
+  checkDeckCount();
+  document.getElementById("deckCount").value = decks;
+  console.log(document.getElementById("deckCount").value);
+
+
+  const cardContainer =
+    document.getElementsByClassName("card-placeholder");
+  const cards = document.getElementsByClassName("card");
+
+  const cardArray = Array.from(cards);
+  const containerArray = Array.from(cardContainer);
+
+  containerArray.forEach((placeholder) => {
+    if (placeholder.hasChildNodes) {
+      let marginValue = 5;
+      for (let c of placeholder.children) {
+        sort = placeholder.getAttribute("data-sort");
+        value = placeholder.getAttribute("data-value").toLowerCase();
+        marginTopParam =
+          "background-image: url('static/img/cards/" +
+          value +
+          "_" +
+          sort +
+          ".png'); margin-top: " +
+          marginValue +
+          "%; margin-left: " +
+          marginValue +
+          "%";
+        if (c === placeholder.firstElementChild) {
+          continue;
+        } else {
+          c.setAttribute("style", marginTopParam);
+          //console.log(c);
+          marginValue += 5;
+        }
+      }
+    }
+  });
+
+
+  cardArray.forEach((card) => {
+    // Add click event listener to dispose of cards
+    card.addEventListener("click", function () {
+      card.classList.add("hide"); // Hide the disposed card
+    });
+  });
+
+});
