@@ -5,6 +5,23 @@ function checkDeckCount () {
 }
 
 
+function removeCard (card) {
+  var value = card.parentElement.getAttribute("data-value") + " " + card.parentElement.getAttribute("data-sort"); 
+  $.ajax({ 
+      url: '/recount', 
+      type: 'POST', 
+      contentType: 'application/json', 
+      data: JSON.stringify({ 'card': value }), 
+      success: function(response) { 
+        console.log(response.result); 
+      }, 
+      error: function(error) { 
+          console.log(error); 
+      } 
+  }); 
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
   
   checkDeckCount();
@@ -51,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add click event listener to dispose of cards
     card.addEventListener("click", function () {
       card.classList.add("hide"); // Hide the disposed card
+      removeCard(card);
     });
   });
 

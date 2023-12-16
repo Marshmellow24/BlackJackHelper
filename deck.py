@@ -47,6 +47,10 @@ class Game:
     #returns number of decks for this object
     def getDeckNo(self):
         return self.deckNo
+    
+    #clear deck
+    def clearDeck(self):
+        self.deck = []
 
 #single card object. Has value, suit, also face value (e.g. Jack has fv 10, Ace fv 1/11 etc.) properties. Inherits deck number property from Game class
 class Card(Game):
