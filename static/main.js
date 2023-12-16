@@ -1,10 +1,10 @@
 
-
+// checks deck count and stores variable so that it can be passed to Backend via hidden input form element
 function checkDeckCount () {
   console.log(decks);
 }
 
-
+// passes card value and sort to back end via ajax post request
 function removeCard (card) {
   var value = card.parentElement.getAttribute("data-value") + " " + card.parentElement.getAttribute("data-sort"); 
   $.ajax({ 
@@ -25,8 +25,8 @@ function removeCard (card) {
 document.addEventListener("DOMContentLoaded", function () {
   
   checkDeckCount();
+  // assigns decks variable from jinja var decks -> to in html declared decks var to hidden element value attribute
   document.getElementById("deckCount").value = decks;
-  console.log(document.getElementById("deckCount").value);
 
 
   const cardContainer =
