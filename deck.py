@@ -90,7 +90,7 @@ class Card(Game):
         return f"{self.v} " + f"{self.s}"
     
     def getValues(self):
-        return (self.s, self.v, self.fv)
+        return (self.s, self.v)
 
     #legacy
     def __str__(self):
@@ -104,10 +104,8 @@ class CardCounter():
             "King", "Ace"]
     
     
-    def __init__(self, deck, total):
+    def __init__(self, deck):
         self.decks = deck
-        self.total = total
-        
     
     # sort cards by value and suit and return dict with occurrence of every single card type (suit, value) in deck. Can also be used to sort Cards from pre sorted groups (e.g. sortGroups())
     def sortCards(self, groups=False):
@@ -136,7 +134,7 @@ class CardCounter():
 
         # if argument is dict type it means that deck was not sorted into groups, thus sortCards was called with argument group = 0
         if type(decks) is dict:
-            probs = {key: value/sum(decks.values()) for (key,value) in decks.items()}
+            probs = {key: round(value/sum(decks.values()), 5) for (key,value) in decks.items()}
         
         # else it is a list of 3 dicts
         else:
@@ -220,22 +218,26 @@ def valuesMapper(cards):
 
 if __name__ == "__main__":
     decks = Game()
-    decks.createMultipleDecks(5)
+    decks.createMultipleDecks(3)
     total = decks.getCardsCount()
     print(decks.getDeckNo())
     remover = CardRemover(decks.getDeck())
-    counter = CardCounter(decks.getDeck(), total)
+    counter = CardCounter(decks.getDeck())
 
-    remover.removeCard("2", "spades", 0)
+    remover.removeCard("2", "spades", 1)
     remover.removeCard("3", "spades", 2)
     remover.removeCard("4", "spades", 2)
     remover.removeCard("3", "diamonds", 2)
     remover.removeCard("3", "clubs", 2)
 
-    #sortedGroups = counter.sortGroups()
+   
     sorted = counter.sortCards(False)
 
-    print(valuesMapper(remover.getRemovedCards()))
+    print(counter.calcProbs(sorted))
+
+
+
+    #print(valuesMapper(remover.getRemovedCards()))
 
 
 
