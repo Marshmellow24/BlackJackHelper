@@ -21,6 +21,9 @@ function removeCard (card) {
   }); 
 }
 
+function showStats (stat) {
+
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   
@@ -52,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "%; margin-left: " +
           marginValue +
           "%";
-        if (c === placeholder.firstElementChild) {
+        if (c === placeholder.firstElementChild || c.getAttribute("class") != "card") {
           continue;
         } else {
           c.setAttribute("style", marginTopParam);

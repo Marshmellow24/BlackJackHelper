@@ -28,13 +28,13 @@
         data-value="{{ v }}"
         data-sort="{{ s }}"
       >
-        {{v + " " + s}} {% for deck in range(decks|int)%}
+        {% for deck in range(decks|int)%}
         <div
           id="cards"
           class="card"
           style="background-image: url('static/img/cards/{{v|lower}}_{{s}}.png')"
         ></div>
-        {% endfor %}
+        {% endfor %} <span id="stats">{{v + " " + s}}</span>
       </div>
       {% endfor %}
     </div>
