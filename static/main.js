@@ -21,9 +21,40 @@ function removeCard (card) {
   }); 
 }
 
-function showStats (stat) {
+function readStats (stat) {
 
 }
+
+
+function countCards (arr) {
+  let counter;
+
+  
+  if (Array.isArray(arr)) {
+    arr.forEach((placeholder) => {
+      counter = 0;
+      //console.log(placeholder);
+      for (let element of placeholder.children) {
+        if (element.getAttribute("class") === "card") {
+          counter++;
+        }
+      }
+  
+     placeholder.querySelector("#stats").innerHTML = counter;
+    });
+  } else {
+    console.log(arr.querySelectorAll(".card"));
+    counter = arr.querySelectorAll(".card").length;
+    arr.querySelector("#stats").innerHTML = counter;
+  }
+  
+
+  //placeholder.lastElementChild.innerHTML = counter;
+  
+  
+}
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   
@@ -66,12 +97,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  countCards(containerArray);
 
   cardArray.forEach((card) => {
     // Add click event listener to dispose of cards
     card.addEventListener("click", function () {
+      removedCard = card.parentElement;
       card.classList.add("hide"); // Hide the disposed card
       removeCard(card);
+      card.remove();
+      countCards(removedCard);
+      
     });
   });
 

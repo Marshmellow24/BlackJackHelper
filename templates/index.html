@@ -27,6 +27,7 @@
         class="card-placeholder"
         data-value="{{ v }}"
         data-sort="{{ s }}"
+        style="background-image: url('static/img/cards/{{v|lower}}_{{s}}.png')"
       >
         {% for deck in range(decks|int)%}
         <div
