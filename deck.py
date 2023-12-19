@@ -47,6 +47,10 @@ class Game:
     #returns number of decks for this object
     def getDeckNo(self):
         return self.deckNo
+    
+    #clear deck
+    def clearDeck(self):
+        self.deck = []
 
 #single card object. Has value, suit, also face value (e.g. Jack has fv 10, Ace fv 1/11 etc.) properties. Inherits deck number property from Game class
 class Card(Game):
@@ -86,7 +90,7 @@ class Card(Game):
         return f"{self.v} " + f"{self.s}"
     
     def getValues(self):
-        return (self.s, self.v, self.fv)
+        return (self.s, self.v)
 
     #legacy
     def __str__(self):
@@ -94,16 +98,14 @@ class Card(Game):
         
 #class to handle counting cards and calculating probabilities
 class CardCounter():
-    cardsLow = ["2", "3", "4"] 
-    cardsMid = ["5", "6", "7", "8","9"]
+    cardsLow = ["2", "3", "4", "5", "6"] 
+    cardsMid = ["7", "8","9"]
     cardsHi = ["10", "Jack", "Queen",
             "King", "Ace"]
     
     
-    def __init__(self, deck, total):
+    def __init__(self, deck):
         self.decks = deck
-        self.total = total
-        
     
     # sort cards by value and suit and return dict with occurrence of every single card type (suit, value) in deck. Can also be used to sort Cards from pre sorted groups (e.g. sortGroups())
     def sortCards(self, groups=False):
@@ -114,14 +116,12 @@ class CardCounter():
             # iterate through low, med, hi group decks
             for deck in decks:
                 cards = [card.getValues() for card in deck]
-                print("2")
                 count.append(dict(Counter(cards)))
             # give out list of dicts so that calcProbs can calculate probabilities per each group
             counted = count
         # if groups is false we want a prob dist for every single card
         else: 
             cards = [card.getValues() for card in self.decks]
-            print("1")
             # use counter to create dict with tuple(suit, value, facevalue) as key and count as value for each card           
             counted = dict(Counter(cards))
             
@@ -132,7 +132,7 @@ class CardCounter():
 
         # if argument is dict type it means that deck was not sorted into groups, thus sortCards was called with argument group = 0
         if type(decks) is dict:
-            probs = {key: value/sum(decks.values()) for (key,value) in decks.items()}
+            probs = {key: round(value/sum(decks.values()), 5) for (key,value) in decks.items()}
         
         # else it is a list of 3 dicts
         else:
@@ -216,22 +216,26 @@ def valuesMapper(cards):
 
 if __name__ == "__main__":
     decks = Game()
-    decks.createMultipleDecks(5)
+    decks.createMultipleDecks(3)
     total = decks.getCardsCount()
     print(decks.getDeckNo())
     remover = CardRemover(decks.getDeck())
-    counter = CardCounter(decks.getDeck(), total)
+    counter = CardCounter(decks.getDeck())
 
-    remover.removeCard("2", "spades", 0)
+    remover.removeCard("2", "spades", 1)
     remover.removeCard("3", "spades", 2)
     remover.removeCard("4", "spades", 2)
     remover.removeCard("3", "diamonds", 2)
     remover.removeCard("3", "clubs", 2)
 
-    #sortedGroups = counter.sortGroups()
+   
     sorted = counter.sortCards(False)
 
-    print(valuesMapper(remover.getRemovedCards()))
+    print(counter.calcProbs(sorted))
+
+
+
+    #print(valuesMapper(remover.getRemovedCards()))
 
 
 
