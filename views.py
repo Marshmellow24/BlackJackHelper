@@ -50,6 +50,13 @@ def recount():
 
     # make response solves issue that dict cannot be serialized
     return make_response(jsonify(result = list(counted.items())),200)
+
+@views.route("/groupCount", methods=['GET'])
+def groupCount():
+    counter2 = CardCounter(gameDeck.getDeck())
+
+    countedGroups = counter2.calcProbs(counter2.sortCards(True))
+    return jsonify(countedGroups)
     
     
 

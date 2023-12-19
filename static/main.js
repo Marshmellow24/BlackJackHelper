@@ -24,11 +24,41 @@ function removeCard(card) {
   });
 }
 
+// sends GET to backend and asks for group count
+function countGroups() {
+  $.ajax({
+    url: "/groupCount",
+    type: "GET",
+    contentType: "application/json",
+    success: function (response) {
+      console.log(response);
+      readGroups(response);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+}
+
+// will display group probabilities of cards
+function readGroups(groups) {
+  container = document.getElementById("groupsStat");
+
+  let low = container.querySelector("[id=lowGroup]");
+  let mid = container.querySelector("[id=midGroup]");
+  let high = container.querySelector("[id=highGroup]");
+
+  // innerhtml needs to be accessed here or cannot change value in DOM
+  low.innerHTML = (groups[0] * 100).toFixed(2) + "%";
+  mid.innerHTML = (groups[1] * 100).toFixed(2) + "%";
+  high.innerHTML = (groups[2] * 100).toFixed(2) + "%";
+}
+
 // parse value received from backend and show them as probabilites in the placeholder div
 function readStats(probs) {
   placeholders = document.querySelectorAll("[id=probability]");
-  console.log(placeholders);
-  console.log(probs.result);
+  //console.log(placeholders);
+  //console.log(probs.result);
   // when passing only the number of decks (for initial probability display)
   if (typeof probs === "number") {
     placeholders.forEach((element) => {
@@ -126,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Count all cards initially
   countCards(containerArray);
+  countGroups();
 
   cardArray.forEach((card) => {
     // Add click event listener to dispose of cards
@@ -139,6 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       card.remove();
       // update count of placeholder container
       countCards(removedCard);
+      countGroups();
     });
   });
 });

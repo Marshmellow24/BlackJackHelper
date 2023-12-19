@@ -112,7 +112,7 @@ class CardCounter():
         # if groups argument true, then we want to return a probability distribution of low, mid, hi cards
         if(groups):            
             count = []
-            decks = counter.sortGroups(self.decks)
+            decks = self.sortGroups(self.decks)
             # iterate through low, med, hi group decks
             for deck in decks:
                 cards = [card.getValues() for card in deck]
@@ -229,7 +229,7 @@ if __name__ == "__main__":
     remover.removeCard("3", "clubs", 2)
 
    
-    sorted = counter.sortCards(False)
+    sorted = counter.sortCards(True)
 
     print(counter.calcProbs(sorted))
 
