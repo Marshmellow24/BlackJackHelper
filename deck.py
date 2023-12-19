@@ -98,8 +98,8 @@ class Card(Game):
         
 #class to handle counting cards and calculating probabilities
 class CardCounter():
-    cardsLow = ["2", "3", "4"] 
-    cardsMid = ["5", "6", "7", "8","9"]
+    cardsLow = ["2", "3", "4", "5", "6"] 
+    cardsMid = ["7", "8","9"]
     cardsHi = ["10", "Jack", "Queen",
             "King", "Ace"]
     
@@ -116,14 +116,12 @@ class CardCounter():
             # iterate through low, med, hi group decks
             for deck in decks:
                 cards = [card.getValues() for card in deck]
-                print("2")
                 count.append(dict(Counter(cards)))
             # give out list of dicts so that calcProbs can calculate probabilities per each group
             counted = count
         # if groups is false we want a prob dist for every single card
         else: 
             cards = [card.getValues() for card in self.decks]
-            print("1")
             # use counter to create dict with tuple(suit, value, facevalue) as key and count as value for each card           
             counted = dict(Counter(cards))
             

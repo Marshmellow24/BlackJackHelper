@@ -35,7 +35,8 @@
           class="card"
           style="background-image: url('static/img/cards/{{v|lower}}_{{s}}.png')"
         ></div>
-        {% endfor %} <span id="stats">{{v + " " + s}}</span>
+        {% endfor %} <span id="count">{{v + " " + s}}</span>
+        <span id="probability">1/52</span>
       </div>
       {% endfor %}
     </div>

@@ -39,13 +39,13 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(0.7px);
   border-radius: 25px;
 }
 
 .card-placeholder {
   width: 75px;
-  height: 100px;
+  height: 120px;
   display: flex;
   position: relative;
   justify-content: center;
@@ -58,16 +58,33 @@ body {
   padding-top: 0.5%;
   margin: 0.5%;
   color: azure;
-  background-size: 75%;
+  background-size: 70%;
   background-repeat: no-repeat;
   background-position: center;
   background-clip: padding-box;
 }
 
-.card-placeholder span {
+.card-placeholder > #count:not(.count-zero) {
   position: absolute;
   user-select: none;
-  bottom: 0;
+  bottom: 2%;
+  left: 10%;
+  color: chartreuse;
+}
+
+.count-zero {
+  position: absolute;
+  user-select: none;
+  bottom: 2%;
+  left: 10%;
+  color: rgba(133, 133, 133, 0.589);
+}
+
+.card-placeholder > #probability {
+  position: absolute;
+  user-select: none;
+  bottom: 2%;
+  right: 10%;
 }
 
 .card-placeholder > .card {
