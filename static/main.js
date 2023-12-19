@@ -40,6 +40,7 @@ function countGroups() {
   });
 }
 
+// will display group probabilities of cards
 function readGroups(groups) {
   container = document.getElementById("groupsStat");
 
@@ -47,15 +48,10 @@ function readGroups(groups) {
   let mid = container.querySelector("[id=midGroup]");
   let high = container.querySelector("[id=highGroup]");
 
-  console.log(low);
-  console.log(mid);
-
+  // innerhtml needs to be accessed here or cannot change value in DOM
   low.innerHTML = (groups[0] * 100).toFixed(2) + "%";
   mid.innerHTML = (groups[1] * 100).toFixed(2) + "%";
   high.innerHTML = (groups[2] * 100).toFixed(2) + "%";
-
-  console.log(low);
-  console.log(mid);
 }
 
 // parse value received from backend and show them as probabilites in the placeholder div
