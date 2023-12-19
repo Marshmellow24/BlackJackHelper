@@ -16,6 +16,38 @@ body {
   background-position: center;
 }
 
+.TopBox {
+  left: 0;
+  right: 0;
+  color: rgb(0, 255, 106);
+  text-align: center;
+  border: 2px;
+  border-color: rgb(0, 255, 106);
+  border-style: solid;
+  background-color: black;
+}
+
+.statsContainer {
+  display: flex;
+  flex-direction: row;
+
+  #groupsStat {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 1px;
+  }
+  #historyStat {
+    width: 50%;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 1px;
+  }
+}
+
 .card-table {
   display: flex;
 
