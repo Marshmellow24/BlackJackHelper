@@ -24,6 +24,7 @@ function removeCard(card) {
   });
 }
 
+
 // sends GET to backend and asks for group count
 function countGroups() {
   $.ajax({
@@ -110,11 +111,34 @@ function countCards(container) {
   }
 }
 
+function stickIt(element, wrapper, offset) {
+  
+  if (window.scrollY > offset) {
+    // has to be done with concatenation since offsetHeight does not give out px-value but is demanded by style property
+    wrapper.style.height = element.offsetHeight + "px";
+    element.classList.add("sticky");
+  } else {
+    element.classList.remove("sticky");
+    wrapper.style.height = "";
+  }
+  
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
+  //sticky top box - box offset has to be declared here or else will not stick to original position when scrolling up again
+  let topBox = document.getElementById("topBox");
+  let topBoxOffset = topBox.offsetTop;
+  let topBoxWrapper = document.getElementById("topBoxWrapper");
+  
+
+  window.onscroll= function() {stickIt(topBox, topBoxWrapper, topBoxOffset)}; 
+  
   checkDeckCount();
   // assigns decks variable from jinja var decks -> to in html declared decks var to hidden element value attribute
   document.getElementById("deckCount").value = decks;
 
+  
   readStats(parseInt(decks));
 
   const cardContainer = document.getElementsByClassName("card-placeholder");
