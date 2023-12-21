@@ -204,6 +204,11 @@ class CardRemover():
     def getRemovedCards(self):
         return self.removedCards
     
+    # clear removed Cards
+    def clearRemoved(self):
+        self.removedCards = []
+
+
 class PlayersHand():
     pass
 
