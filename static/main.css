@@ -64,8 +64,6 @@ body {
     padding: 1%;
     font-size: 80%;
     border: 1px;
-    border-color: rgb(179, 255, 0);
-    border-style: solid;
 
     #topHistory {
       width: 100%;
@@ -80,23 +78,31 @@ body {
       grid-template-rows: repeat(5, auto);
       grid-auto-flow: column;
 
-      :nth-child(1) {
+      :nth-last-child(n + 3) {
         opacity: 30%;
       }
-      :nth-child(2) {
+      :nth-last-child(7) {
+        opacity: 30%;
+      }
+      :nth-last-child(6) {
         opacity: 40%;
       }
-      :nth-child(3) {
+      :nth-last-child(5) {
         opacity: 50%;
       }
-      :nth-child(4) {
+      :nth-last-child(4) {
         opacity: 60%;
       }
-      :nth-child(5) {
+      :nth-last-child(3) {
         opacity: 70%;
       }
-      :nth-child(6) {
+      :nth-last-child(2) {
         opacity: 80%;
+      }
+      :nth-last-child(1) {
+        opacity: 100%;
+        font-weight: bold;
+        color: rgb(255, 255, 255);
       }
     }
   }
