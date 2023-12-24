@@ -25,14 +25,17 @@ function removeCard(card) {
 }
 
 // sends GET to backend and asks for group count
-function countGroups() {
+function getGroups() {
   $.ajax({
     url: "/groupCount",
     type: "GET",
     contentType: "application/json",
     success: function (response) {
-      //console.log(response);
-      readGroups(response);
+      if (typeof respone != "string") {
+        readGroups(response);
+      } else {
+        console.log(response);
+      }
     },
     error: function (error) {
       console.log(error);
@@ -47,8 +50,23 @@ function getQueue() {
     type: "GET",
     contentType: "application/json",
     success: function (response) {
-      console.log(response);
+      // console.log(response);
       readQueue(response);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+}
+
+// receive removed cards from backend
+function getCardValues() {
+  $.ajax({
+    url: "/cardsByValue",
+    type: "GET",
+    contentType: "application/json",
+    success: function (response) {
+      console.log(response);
     },
     error: function (error) {
       console.log(error);
@@ -218,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Count all cards and groups initially
   countCards(containerArray);
 
-  countGroups();
+  getGroups();
 
   cardArray.forEach((card) => {
     // Add click event listener to dispose of cards
@@ -237,10 +255,12 @@ document.addEventListener("DOMContentLoaded", function () {
       countCards(removedCard);
 
       // receive count of low mid high groups
-      countGroups();
+      getGroups();
 
       // get drawn cards list
       getQueue();
+
+      getCardValues();
     });
   });
 });

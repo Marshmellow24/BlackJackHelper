@@ -75,7 +75,8 @@ def recount():
 @views.route("/groupCount", methods=['GET'])
 def groupCount():
     counter2 = CardCounter(gameDeck.getDeck())
-
+    if gameDeck.getCardsCount() == 0:
+        return "No more cards left"
     countedGroups = counter2.calcProbs(counter2.sortCards(True))
     return jsonify(countedGroups)
 
@@ -85,3 +86,11 @@ def drawnQueue():
     queue = [card.listValue() for card in remover.getRemovedCards()]
     # print(queue)
     return jsonify(queue)
+
+@views.route("/cardsByValue", methods=['GET'])
+def cardsByValue():
+    counter3 = CardCounter(gameDeck.getDeck())
+    
+    cardValues = counter3.sortValues()
+    print(cardValues)
+    return jsonify(cardValues)

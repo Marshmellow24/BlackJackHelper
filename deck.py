@@ -1,5 +1,8 @@
 from collections import Counter
 import random
+import json
+import pprint
+from re import S
 
 #Game class which can create decks, which in turn will instantiate cards. DeckNo is class property, so Card object can inherit it via __init__ (can be fixed TODO)
 class Game:
@@ -103,13 +106,12 @@ class CardCounter():
     cardsHi = ["10", "Jack", "Queen",
             "King", "Ace"]
     
-    
     def __init__(self, deck):
         self.decks = deck
     
-    # sort cards by value and suit and return dict with occurrence of every single card type (suit, value) in deck. Can also be used to sort Cards from pre sorted groups (e.g. sortGroups())
+    # sort cards by value and suit and return dict with occurrence of every single card type (suit, value) in deck - when groups=True, cards are sorted into 3 separate lists in a list
     def sortCards(self, groups=False):
-        # if groups argument true, then we want to return a probability distribution of low, mid, hi cards
+        # if groups argument true, then we want to sort cards into 3 separate lists depending on their value
         if(groups):            
             count = []
             decks = self.sortGroups(self.decks)
@@ -161,6 +163,22 @@ class CardCounter():
             else:
                 hiCount.append(card)
         return lowCount, midCount, hiCount
+    
+    # sort cards by occuring values (how many 2s, 3s, 4s, aces etc)
+    def sortValues(self):
+        # take order from cards lists 
+        index_map = {v: i for i, v in enumerate(self.cardsLow + self.cardsMid + self.cardsHi)}
+
+        # only get the values, not sorts of all cards total 
+        values = [card.getValues()[1] for card in self.decks]
+        
+        # dict(counter(values)) will count the values (not sorts) of cards by occurence and sorted() will sort them back by index map
+        sorted_values = sorted(dict(Counter(values)).items(), key= lambda pair: index_map[pair[0]])
+        
+        # change back to dict
+        dict_values = {k: v for k, v in sorted_values}
+        
+        return dict_values
 
     def getGroupsCount(self):
         pass
@@ -222,23 +240,18 @@ def valuesMapper(cards):
 
 if __name__ == "__main__":
     decks = Game()
-    decks.createMultipleDecks(3)
+    decks.createMultipleDecks(1)
     total = decks.getCardsCount()
     print(decks.getDeckNo())
     remover = CardRemover(decks.getDeck())
     counter = CardCounter(decks.getDeck())
 
     remover.removeCard("2", "spades", 1)
-    remover.removeCard("3", "spades", 2)
-    remover.removeCard("4", "spades", 2)
-    remover.removeCard("3", "diamonds", 2)
-    remover.removeCard("3", "clubs", 2)
 
-   
-    sorted = counter.sortCards(True)
+    print(counter.sortValues())
 
-    print(counter.calcProbs(sorted))
-
+    # sorted1 = counter.sortCards()
+    # sorted2 = counter.sortCards(True)
 
 
     #print(valuesMapper(remover.getRemovedCards()))

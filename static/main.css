@@ -65,6 +65,12 @@ body {
     font-size: 80%;
     border: 1px;
 
+    #cardValues {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-all;
+    }
+
     #topHistory {
       width: 100%;
       border: 1px;
