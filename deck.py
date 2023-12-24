@@ -144,7 +144,7 @@ class CardCounter():
             #prob distribution
             for group in decks:
                 probs.append(sum(group.values())/totalCardsNum)
-            print(totalCardsNum)
+            #print(totalCardsNum)
         return probs
 
     # sorts cards into arbitrary groups low, mid, high
@@ -191,12 +191,13 @@ class CardRemover():
 
     #remove card with specific suit and value 
     def removeCard(self, value, suit, count = 1):
-        
+        # print(f"trying to remove {value} {suit}")
         for i in range(count):
             
             for card in self.decks:
                 if card.v == value and card.s == suit:
-                    self.decks.remove(card)                    
+                    # print("Card " + card.listValue())
+                    self.decks.remove(card)                  
                     self.removedCards.append(card)
                     break
 

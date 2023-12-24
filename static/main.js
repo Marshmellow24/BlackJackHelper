@@ -40,6 +40,7 @@ function countGroups() {
   });
 }
 
+// receive removed cards from backend
 function getQueue() {
   $.ajax({
     url: "/drawnQueue",
@@ -47,6 +48,7 @@ function getQueue() {
     contentType: "application/json",
     success: function (response) {
       console.log(response);
+      readQueue(response);
     },
     error: function (error) {
       console.log(error);
@@ -56,7 +58,7 @@ function getQueue() {
 
 // will display group probabilities of cards
 function readGroups(groups) {
-  container = document.getElementById("groupsStat");
+  let container = document.getElementById("groupsStat");
 
   let low = container.querySelector("[id=lowGroup]");
   let mid = container.querySelector("[id=midGroup]");
@@ -66,6 +68,29 @@ function readGroups(groups) {
   low.innerHTML = (groups[0] * 100).toFixed(2) + "%";
   mid.innerHTML = (groups[1] * 100).toFixed(2) + "%";
   high.innerHTML = (groups[2] * 100).toFixed(2) + "%";
+}
+
+// will receive removed Cards list from remover object out of backend and put it into top box
+function readQueue(queue) {
+  let container = document.getElementById("queueWrapper");
+
+  checkQueueLimit(container);
+  // if first span element then no separator else comma and space
+  // let sep = container.hasChildNodes() ? ", " : "";
+
+  let child = document.createElement("span");
+
+  // only append last removed card from list
+  child.innerHTML = queue[queue.length - 1];
+
+  container.append(child);
+}
+
+function checkQueueLimit(queue) {
+  if (queue.children.length >= 10) {
+    queue.removeChild(queue.children[0]);
+    // queue.firstChild.innerHTML = queue.firstChild.innerHTML.substring(2);
+  }
 }
 
 // parse value received from backend and show them as probabilites in the placeholder div
@@ -146,9 +171,11 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   checkDeckCount();
+
   // assigns decks variable from jinja var decks -> to in html declared decks var to hidden element value attribute
   document.getElementById("deckCount").value = decks;
 
+  // receive all initial probabilities before removing cards
   readStats(parseInt(decks));
 
   const cardContainer = document.getElementsByClassName("card-placeholder");
@@ -188,8 +215,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Count all cards initially
+  // Count all cards and groups initially
   countCards(containerArray);
+
   countGroups();
 
   cardArray.forEach((card) => {
@@ -199,12 +227,19 @@ document.addEventListener("DOMContentLoaded", function () {
       removedCard = card.parentElement;
       //card.classList.add("hide"); // Hide the disposed card - legacy not needed bc remove s. below
       // send card to backend
+
       removeCard(card);
+
       // remove from DOM
       card.remove();
+
       // update count of placeholder container
       countCards(removedCard);
+
+      // receive count of low mid high groups
       countGroups();
+
+      // get drawn cards list
       getQueue();
     });
   });

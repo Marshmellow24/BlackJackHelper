@@ -73,6 +73,32 @@ body {
       border-color: rgb(255, 255, 255);
       border-style: solid;
     }
+
+    #queueWrapper {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(5, auto);
+      grid-auto-flow: column;
+
+      :nth-child(1) {
+        opacity: 30%;
+      }
+      :nth-child(2) {
+        opacity: 40%;
+      }
+      :nth-child(3) {
+        opacity: 50%;
+      }
+      :nth-child(4) {
+        opacity: 60%;
+      }
+      :nth-child(5) {
+        opacity: 70%;
+      }
+      :nth-child(6) {
+        opacity: 80%;
+      }
+    }
   }
 }
 
