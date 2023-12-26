@@ -66,9 +66,17 @@ body {
     border: 1px;
 
     #cardValues {
-      word-wrap: break-word;
-      overflow-wrap: break-word;
       word-break: break-all;
+      display: flex;
+      /* flex-grow: 4; */
+      
+      #sortOfCard {
+        color:rgb(255, 255, 255)
+      }
+
+      #valueOfCard {
+        color:rgb(0, 255, 106)
+      }
     }
 
     #topHistory {
@@ -80,9 +88,12 @@ body {
 
     #queueWrapper {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(5, auto);
+      grid-template-columns: repeat(2, 1.5fr);
+      grid-template-rows: repeat(5, 1fr);
       grid-auto-flow: column;
+      grid-auto-rows: 20px;
+      min-height: 75px;
+      min-width: 200px;
 
       :nth-last-child(n + 3) {
         opacity: 30%;
@@ -109,6 +120,7 @@ body {
         opacity: 100%;
         font-weight: bold;
         color: rgb(255, 255, 255);
+        text-shadow: red 0.1dvw 0.1dvw;
       }
     }
   }

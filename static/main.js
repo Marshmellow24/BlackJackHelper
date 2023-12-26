@@ -66,6 +66,7 @@ function getCardValues() {
     type: "GET",
     contentType: "application/json",
     success: function (response) {
+      readCardValues(response);
       console.log(response);
     },
     error: function (error) {
@@ -73,6 +74,40 @@ function getCardValues() {
     },
   });
 }
+
+function setCardSpans() {
+  let container = document.getElementById("cardValues");
+
+  let sorts = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Ace"];
+
+  for (sort of sorts) {
+    let sortChild = document.createElement("span");
+    let valueChild = document.createElement("span");
+
+    container.append(sortChild);
+    container.append(valueChild);
+    sortChild.innerHTML = sort + ": ";
+    valueChild.innerHTML  = sort != "10" ? decks * 4: decks * 4 * 4 ;
+    sortChild.setAttribute("id","sortOfCard");
+    valueChild.setAttribute("id","valueOfCard");
+  }
+}
+
+function readCardValues(valuePerNumber) {
+  let values = document.querySelectorAll("[id=valueOfCard]");
+  
+  // console.log(Object.entries(valuePerNumber));  
+  let cardValues = Object.entries(valuePerNumber);
+  
+  // copy NodeList to Array so that indexOf is usable  
+  let valuesArr = Array.from(values);
+
+  // iterate through Array of span element w/ valueOfCard id and change according to remaining number of cards
+  for (element of valuesArr) { 
+    element.innerHTML  = cardValues[valuesArr.indexOf(element)][1];
+  }
+}
+
 
 // will display group probabilities of cards
 function readGroups(groups) {
@@ -104,6 +139,7 @@ function readQueue(queue) {
   container.append(child);
 }
 
+// Set Queue Length to specific limit
 function checkQueueLimit(queue) {
   if (queue.children.length >= 10) {
     queue.removeChild(queue.children[0]);
@@ -111,7 +147,7 @@ function checkQueueLimit(queue) {
   }
 }
 
-// parse value received from backend and show them as probabilites in the placeholder div
+// parse value per single card (2H,2C,2S,2D etc) received from backend and show them as probabilites in the placeholder div
 function readStats(probs) {
   placeholders = document.querySelectorAll("[id=probability]");
   //console.log(placeholders);
@@ -123,7 +159,7 @@ function readStats(probs) {
     });
     // parsing Object that is received from AJAX query
   } else if (Array.isArray(probs.result)) {
-    // it is an object with 'result' key
+    // if it is an object with 'result' key, then it is after the initial loading
     probs.result.forEach((prob) => {
       for (let placeholder of placeholders) {
         sort = placeholder.parentElement.getAttribute("data-sort");
@@ -188,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
     stickIt(topBox, topBoxWrapper, topBoxOffset);
   };
 
+
   checkDeckCount();
 
   // assigns decks variable from jinja var decks -> to in html declared decks var to hidden element value attribute
@@ -235,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Count all cards and groups initially
   countCards(containerArray);
-
+  setCardSpans();
   getGroups();
 
   cardArray.forEach((card) => {

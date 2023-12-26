@@ -169,14 +169,22 @@ class CardCounter():
         # take order from cards lists 
         index_map = {v: i for i, v in enumerate(self.cardsLow + self.cardsMid + self.cardsHi)}
 
-        # only get the values, not sorts of all cards total 
-        values = [card.getValues()[1] for card in self.decks]
+        # only get the values, not sorts of all cards total
+        valuesPeople = [card.getValues()[1] for card in self.decks]
+        
+        # replace value of jack, queen, king with 10 
+        values = []
+        for card in valuesPeople:
+            if card in self.cardsHi and card not in "Ace":
+                card = "10"
+            values.append(card)        
         
         # dict(counter(values)) will count the values (not sorts) of cards by occurence and sorted() will sort them back by index map
         sorted_values = sorted(dict(Counter(values)).items(), key= lambda pair: index_map[pair[0]])
         
         # change back to dict
         dict_values = {k: v for k, v in sorted_values}
+        
         
         return dict_values
 
